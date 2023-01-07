@@ -3,12 +3,17 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { ThemeProvider } from 'styled-components/macro'
 
+// base components
+import { DefaultCtr, Header } from '../..'
+
 // state
 import { store, persistor } from '../../../store/store'
 
 // styles
 import { StyledMainLayout } from './mainLayout-styles'
 import { Theme, GlobalStyle } from '../../../styles'
+
+const origin = typeof window === 'undefined' ? '' : window.location.origin
 
 export type MainLayoutProps = {
     children: React.ReactNode
@@ -27,20 +32,27 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     return (
         <>
             <Head>
-                <title>{title ?? 'Pokemon App'}</title>
+                <title>{title ?? 'Open Jira App'}</title>
                 <meta
-                    name={description ?? 'Pokemon'}
-                    content={contentDescription ?? 'Description de Pokemon'}
+                    name={description ?? 'Open Jira App'}
+                    content={contentDescription ?? 'Description about Open Jira App'}
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
+
+                <meta property="og:title" content={`Information about ${title}`} />
+                <meta property="og:description" content={`Description about ${title}`} />
+                <meta property="og:image" content={`${origin}/image/pokemon.png`} />
             </Head>
 
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <ThemeProvider theme={theme}>
                         <GlobalStyle reset />
-                        <StyledMainLayout>{children}</StyledMainLayout>
+                        <Header />
+                        <StyledMainLayout>
+                            <DefaultCtr>{children}</DefaultCtr>
+                        </StyledMainLayout>
                     </ThemeProvider>
                 </PersistGate>
             </Provider>

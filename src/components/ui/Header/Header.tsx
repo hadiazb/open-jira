@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
                             width={70}
                             height={70}
                         />
-                        <Typography variant="h1">Pokemon</Typography>
+                        <Typography variant="h1">Open Jira</Typography>
                     </StyledHeaderPokemon>
                     <Navbar />
                 </StyledHeaderSection>

@@ -6,7 +6,7 @@ export const StyledShadowMixed = css`
 
 export const StyledHeader = styled.header`
     ${StyledShadowMixed}
-    ${tw`bg-primary fixed left-0 top-0 right-0 z-50`}
+    ${tw`bg-secondary fixed left-0 top-0 right-0 z-50`}
 `
 
 export const StyledHeaderSection = styled.section`
