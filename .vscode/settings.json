@@ -1,3 +1,9 @@
 {
-	"cSpell.words": ["persistor", "stylelint", "tailwindcss"]
+	"cSpell.words": [
+		"persistor",
+		"reduxjs",
+		"stylelint",
+		"tailwindcss",
+		"webfonts"
+	]
 }

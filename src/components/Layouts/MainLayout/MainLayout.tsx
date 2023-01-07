@@ -1,16 +1,21 @@
-import Head from 'next/head';
+import Head from 'next/head'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import { ThemeProvider } from 'styled-components/macro'
+
+// state
+import { store, persistor } from '../../../store/store'
 
 // styles
-import { StyledMainLayout } from './mainLayout-styles';
-
-const origin = typeof window === 'undefined' ? '' : window.location.origin;
+import { StyledMainLayout } from './mainLayout-styles'
+import { Theme, GlobalStyle } from '../../../styles'
 
 export type MainLayoutProps = {
-    children: React.ReactNode;
-    title?: string;
-    description?: string;
-    contentDescription?: string;
-};
+    children: React.ReactNode
+    title?: string
+    description?: string
+    contentDescription?: string
+}
 
 const MainLayout: React.FC<MainLayoutProps> = ({
     children,
@@ -18,6 +23,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     description,
     contentDescription,
 }) => {
+    const theme = Theme()
     return (
         <>
             <Head>
@@ -30,9 +36,16 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <StyledMainLayout>{children}</StyledMainLayout>
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <ThemeProvider theme={theme}>
+                        <GlobalStyle reset />
+                        <StyledMainLayout>{children}</StyledMainLayout>
+                    </ThemeProvider>
+                </PersistGate>
+            </Provider>
         </>
-    );
-};
+    )
+}
 
-export default MainLayout;
+export default MainLayout
