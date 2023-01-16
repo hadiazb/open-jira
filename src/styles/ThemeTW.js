@@ -1,4 +1,4 @@
-export const Theme = () => ({
+module.exports.theme = {
     colors: {
         primary: '#FACD34',
         secondary: '#512F8B',
@@ -52,4 +52,4 @@ export const Theme = () => ({
         lg: '10px',
         large: '12px',
     },
-})
+}

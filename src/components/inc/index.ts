@@ -3,3 +3,4 @@ export { default as Navbar } from './Navbar'
 export { default as ActiveLink } from './ActiveLink'
 
 export * from './Containers'
+export * from './Buttons'

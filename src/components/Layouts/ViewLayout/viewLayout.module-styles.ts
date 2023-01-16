@@ -1,14 +1,7 @@
-import tw, { styled, css } from 'twin.macro';
+import tw, { styled } from 'twin.macro'
+import { StyledTopPaddingMixed } from '../../../styles'
 
-export interface StyledViewLayoutProps {
-	pt?: string;
-}
-
-export const StyledSizeCtr = css<StyledViewLayoutProps>`
-	padding-top: ${({ pt }) => (pt ? pt : '80px')};
-`;
-
-export const StyledViewLayout = styled.div<StyledViewLayoutProps>`
-	${tw`py-10 min-h-[400px]`}
-	${StyledSizeCtr}
-`;
+export const StyledViewLayout = styled.div`
+    ${StyledTopPaddingMixed}
+    ${tw`py-10 min-h-[400px] pt-28`}
+`
