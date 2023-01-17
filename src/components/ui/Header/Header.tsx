@@ -53,7 +53,7 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
                                 }}
                             />
                         )}
-                        <Typography variant="h1" color={mode} onClick={onClick}>
+                        <Typography variant="h1" color="light" onClick={onClick}>
                             Open Jira
                         </Typography>
                     </StyledHeaderLogo>

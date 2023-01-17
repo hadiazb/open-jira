@@ -18,13 +18,9 @@ export const StyledHeaderLogo = styled.div`
 `
 
 export const DrawerIconRight = styled(BsChevronDoubleRight)`
-    ${tw`mr-3`}
-
-    color: ${({ theme }) => theme.colors.light};
+    ${tw`mr-3 text-light`}
 `
 
 export const DrawerIconLeft = styled(BsChevronDoubleLeft)`
-    ${tw`mr-3`}
-
-    color: ${({ theme }) => theme.colors.light};
+    ${tw`mr-3 text-light`}
 `
