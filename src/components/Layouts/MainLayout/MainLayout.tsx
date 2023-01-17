@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useSelector } from 'react-redux'
 import { ThemeProvider } from 'styled-components/macro'
 
@@ -13,9 +14,11 @@ import { Theme, GlobalStyle } from '../../../styles'
 
 export type MainLayoutProps = {
     children: React.ReactNode
+    title: string
+    description: string
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+const MainLayout: React.FC<MainLayoutProps> = ({ children, title, description }) => {
     const { mode } = useSelector((store: RootState) => store.theme)
     const lightTheme = Theme()
     const darkTheme = {
@@ -28,13 +31,25 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     }
 
     return (
-        <ThemeProvider theme={mode === 'light' ? lightTheme : darkTheme}>
-            <GlobalStyle reset />
-            <Header />
-            <StyledMainLayout>
-                <DefaultCtr>{children}</DefaultCtr>
-            </StyledMainLayout>
-        </ThemeProvider>
+        <>
+            <Head>
+                <title>{title}</title>
+                <meta name="description" content={description} />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="/favicon.ico" />
+
+                <meta property="og:title" content={`Information about ${title}`} />
+                <meta property="og:description" content={`Description about ${title}`} />
+                <meta property="og:image" content={`${origin}/image/pokemon.png`} />
+            </Head>
+            <ThemeProvider theme={mode === 'light' ? lightTheme : darkTheme}>
+                <GlobalStyle reset />
+                <Header />
+                <StyledMainLayout>
+                    <DefaultCtr>{children}</DefaultCtr>
+                </StyledMainLayout>
+            </ThemeProvider>
+        </>
     )
 }
 
