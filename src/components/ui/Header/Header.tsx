@@ -18,6 +18,8 @@ import {
     StyledHeaderSection,
     DrawerIconRight,
     DrawerIconLeft,
+    ModeMoonIcon,
+    ModeSunIcon,
 } from './header-styles'
 
 export interface HeaderProps {
@@ -64,11 +66,10 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
                         styledType="dark"
                         type="button"
                         outline
-                        disabled={true}
+                        disabled
                     >
-                        <Typography variant="span" color={mode}>
-                            {mode}
-                        </Typography>
+                        {mode === 'dark' && <ModeMoonIcon size={20} />}
+                        {mode === 'light' && <ModeSunIcon size={20} />}
                     </DefaultButton>
                 </StyledHeaderSection>
             </DefaultCtr>

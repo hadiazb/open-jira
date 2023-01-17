@@ -8,7 +8,7 @@ import { Typography } from '../..'
 import { RootState } from '../../../store/store'
 
 // styles
-import { StyledSidebar, ListOptions, ItemOption, InboxIcon } from './sidebar-styles'
+import { StyledSidebar, ListOptions, ItemOption, InboxIcon, SaveIcon } from './sidebar-styles'
 
 export interface SidebarProps {
     showSidebar: boolean
@@ -17,15 +17,28 @@ export interface SidebarProps {
 const Sidebar: FC<SidebarProps> = ({ showSidebar }): ReactElement => {
     const { mode } = useSelector((store: RootState) => store.theme)
 
+    const options = [
+        {
+            id: 1,
+            text: 'Inbox',
+            icon: <InboxIcon size={25} />,
+        },
+        {
+            id: 2,
+            text: 'Save',
+            icon: <SaveIcon size={25} />,
+        },
+    ]
+
     return (
         <StyledSidebar show={showSidebar}>
             <ListOptions>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((option) => (
-                    <ItemOption key={option}>
+                {options.map((option) => (
+                    <ItemOption key={option.id}>
                         <Typography variant="h3" color={mode}>
-                            Option {option}
+                            {option.text}
                         </Typography>
-                        <InboxIcon size={25} />
+                        {option.icon}
                     </ItemOption>
                 ))}
             </ListOptions>
