@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { ThemeProvider } from 'styled-components/macro'
 
 // base components
-import { DefaultCtr, Header } from '../..'
+import { DefaultCtr, Header, Sidebar } from '../..'
 
 // state
 import { RootState } from '../../../store/store'
@@ -20,6 +20,7 @@ export type MainLayoutProps = {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children, title, description }) => {
     const { mode } = useSelector((store: RootState) => store.theme)
+    const { showSidebar } = useSelector((store: RootState) => store.ui)
     const lightTheme = Theme()
     const darkTheme = {
         ...lightTheme,
@@ -45,6 +46,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, title, description })
             <ThemeProvider theme={mode === 'light' ? lightTheme : darkTheme}>
                 <GlobalStyle reset />
                 <Header />
+                <Sidebar showSidebar={showSidebar} />
                 <StyledMainLayout>
                     <DefaultCtr>{children}</DefaultCtr>
                 </StyledMainLayout>

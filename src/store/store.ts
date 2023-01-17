@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
 
 import { themeSlice } from './theme'
+import { uiSlice } from './ui'
 
 const createNoopStorage = () => ({
     getItem(_key: string) {
@@ -25,6 +26,7 @@ const persistConfig = {
 
 export const rootReducers = combineReducers({
     theme: themeSlice.reducer,
+    ui: uiSlice.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducers)

@@ -2,16 +2,23 @@ import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 
 // base components
-import { DefaultCtr, Navbar, Typography, DefaultButton } from '../..'
+import { DefaultCtr, Typography, DefaultButton } from '../..'
 
 // models
 import { RootState } from '../../../store/store'
 
 // state
 import { onChangeModeTheme } from '../../../store/theme'
+import { onShowSidebar, onHideSidebar } from '../../../store/ui'
 
 // styles
-import { StyledHeader, StyledHeaderPokemon, StyledHeaderSection } from './header-styles'
+import {
+    StyledHeader,
+    StyledHeaderLogo,
+    StyledHeaderSection,
+    DrawerIconRight,
+    DrawerIconLeft,
+} from './header-styles'
 
 export interface HeaderProps {
     [extraProps: string]: any
@@ -20,6 +27,7 @@ export interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ ...props }) => {
     const router = useRouter()
     const { mode } = useSelector((store: RootState) => store.theme)
+    const { showSidebar } = useSelector((store: RootState) => store.ui)
     const dispatch = useDispatch()
 
     const onClick = () => {
@@ -29,12 +37,26 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
         <StyledHeader>
             <DefaultCtr>
                 <StyledHeaderSection>
-                    <StyledHeaderPokemon onClick={onClick}>
-                        <Typography variant="h1" color={mode}>
+                    <StyledHeaderLogo>
+                        {!showSidebar ? (
+                            <DrawerIconRight
+                                size={30}
+                                onClick={() => {
+                                    dispatch(onShowSidebar())
+                                }}
+                            />
+                        ) : (
+                            <DrawerIconLeft
+                                size={30}
+                                onClick={() => {
+                                    dispatch(onHideSidebar())
+                                }}
+                            />
+                        )}
+                        <Typography variant="h1" color={mode} onClick={onClick}>
                             Open Jira
                         </Typography>
-                    </StyledHeaderPokemon>
-                    <Navbar />
+                    </StyledHeaderLogo>
                     <DefaultButton
                         onClick={() => {
                             dispatch(onChangeModeTheme())
