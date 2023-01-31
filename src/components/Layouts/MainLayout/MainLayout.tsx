@@ -1,16 +1,15 @@
 import Head from 'next/head'
-import { useSelector } from 'react-redux'
 import { ThemeProvider } from 'styled-components/macro'
 
 // base components
 import { DefaultCtr, Header, Sidebar } from '../..'
 
-// state
-import { RootState } from '../../../store/store'
-
 // styles
 import { StyledMainLayout } from './mainLayout-styles'
 import { Theme, GlobalStyle } from '../../../styles'
+
+// selectors
+import { themeSelector, uiSelector, useSelector } from '../../../selectors'
 
 export type MainLayoutProps = {
     children: React.ReactNode
@@ -19,8 +18,9 @@ export type MainLayoutProps = {
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children, title, description }) => {
-    const { mode } = useSelector((store: RootState) => store.theme)
-    const { showSidebar } = useSelector((store: RootState) => store.ui)
+    const { mode } = useSelector(themeSelector)
+    const { showSidebar } = useSelector(uiSelector)
+
     const lightTheme = Theme()
     const darkTheme = {
         ...lightTheme,

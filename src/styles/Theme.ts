@@ -1,4 +1,6 @@
-export const Theme = () => ({
+import { DefaultTheme } from 'styled-components/macro'
+
+export const Theme = (): DefaultTheme => ({
     colors: {
         primary: '#FACD34',
         secondary: '#512F8B',

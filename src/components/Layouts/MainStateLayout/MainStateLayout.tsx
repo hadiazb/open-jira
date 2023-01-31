@@ -4,8 +4,6 @@ import { PersistGate } from 'redux-persist/integration/react'
 // state
 import { store, persistor } from '../../../store/store'
 
-const origin = typeof window === 'undefined' ? '' : window.location.origin
-
 export type MainLayoutProps = {
     children: React.ReactNode
 }

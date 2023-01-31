@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 // base components
 import { DefaultCtr, Typography, DefaultButton } from '../..'
 
-// models
-import { RootState } from '../../../store/store'
+// selectors
+import { themeSelector, uiSelector } from '../../../selectors'
 
 // state
 import { onChangeModeTheme } from '../../../store/theme'
@@ -23,16 +23,19 @@ import {
 } from './header-styles'
 
 export interface HeaderProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [extraProps: string]: any
 }
 
-const Header: React.FC<HeaderProps> = ({ ...props }) => {
+const Header: React.FC<HeaderProps> = ({}) => {
     const router = useRouter()
-    const { mode } = useSelector((store: RootState) => store.theme)
-    const { showSidebar } = useSelector((store: RootState) => store.ui)
     const dispatch = useDispatch()
 
-    const onClick = () => {
+    // selectors
+    const { mode } = useSelector(themeSelector)
+    const { showSidebar } = useSelector(uiSelector)
+
+    const onClick = (): void => {
         router.push('/')
     }
     return (
@@ -42,14 +45,14 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
                     <StyledHeaderLogo>
                         {!showSidebar ? (
                             <DrawerIconRight
-                                size={30}
+                                size={25}
                                 onClick={() => {
                                     dispatch(onShowSidebar())
                                 }}
                             />
                         ) : (
                             <DrawerIconLeft
-                                size={30}
+                                size={25}
                                 onClick={() => {
                                     dispatch(onHideSidebar())
                                 }}
@@ -68,8 +71,8 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
                         outline
                         disabled
                     >
-                        {mode === 'dark' && <ModeMoonIcon size={20} />}
-                        {mode === 'light' && <ModeSunIcon size={20} />}
+                        {mode === 'light' && <ModeMoonIcon size={15} />}
+                        {mode === 'dark' && <ModeSunIcon size={15} />}
                     </DefaultButton>
                 </StyledHeaderSection>
             </DefaultCtr>

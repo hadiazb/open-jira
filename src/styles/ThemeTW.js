@@ -7,7 +7,7 @@ module.exports.theme = {
         warning: '#E0A800',
         info: '#138496',
         light: '#F9F9F9',
-        dark: '#000000',
+        dark: '#112222',
         white: '#FFFFFF',
     },
 

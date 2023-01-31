@@ -1,7 +1,7 @@
 import tw, { css } from 'twin.macro'
 
 export const StyledShadowMixed = css`
-    ${tw`shadow-[0px 3px 6px #00000029]`}
+    ${({ theme }) => theme.colors.light && tw`shadow-[0px 3px 6px #00000029]`}
 `
 
 export const StyledTransitionMixed = css`

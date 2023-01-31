@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { useEffect, useState } from 'react'
 import { Theme } from '../../../../styles/Theme'
 
@@ -52,6 +53,7 @@ export const useTypography = ({ variant, color }: UseTypography) => {
         span: StyledTypographySpan,
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [StyledTypography, setStyledTypography] = useState<any>(component[variant])
     const [StyledColor, setStyledColor] = useState(colorAux[color || 'dark'])
 

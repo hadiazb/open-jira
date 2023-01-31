@@ -14,7 +14,7 @@ export const StyledHeader = styled.header`
     ${tw`bg-secondary fixed left-0 top-0 right-0 z-50`}
 
     & button {
-        ${tw`min-w-[50px] p-3 rounded-[50%]`}
+        ${tw`min-w-[35px] p-2 rounded-[50%]`}
     }
 `
 
@@ -35,7 +35,7 @@ export const DrawerIconLeft = styled(BsChevronDoubleLeft)`
 `
 
 export const ModeSunIcon = styled(BsSunFill)`
-    ${tw`text-yellow-200`}
+    ${tw`text-primary`}
 `
 
 export const ModeMoonIcon = styled(BsFillMoonFill)`

@@ -1,21 +1,13 @@
 import { ReactElement } from 'react'
-import { useSelector } from 'react-redux'
+
+// views
+import { HomeView } from '../views'
 
 // base components
-import { MainLayout, ViewLayout, MainStateLayout, Typography } from '../components'
-
-// state
-import { RootState } from '../store/store'
+import { MainLayout, ViewLayout, MainStateLayout } from '../components'
 
 const HomePage = (): ReactElement => {
-    const { mode } = useSelector((store: RootState) => store.theme)
-    return (
-        <>
-            <Typography variant="h1" color={mode === 'dark' ? 'light' : 'dark'}>
-                HomePage
-            </Typography>
-        </>
-    )
+    return <HomeView />
 }
 
 export default HomePage
