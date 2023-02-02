@@ -1,1 +1,5 @@
-import tw from 'twin.macro'
+import tw, { styled } from 'twin.macro'
+
+export const StyledListCards = styled.div`
+    ${tw``}
+`
