@@ -19,7 +19,7 @@ export const StyledCard = styled.div`
 export const StyledCtrTask = styled.div`
     ${StyledShadowMixed}
     ${StyledTransitionMixed}
-    ${tw`w-11/12 my-3 p-3 rounded bg-secondary`}
+    ${tw`w-11/12 my-1 md:my-3 p-3 rounded bg-secondary`}
 `
 
 export const StyledCtrTaskRow = styled.div`

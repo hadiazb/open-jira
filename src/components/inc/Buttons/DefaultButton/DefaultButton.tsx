@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 
-import { ButtonStyled } from './default-styles'
+import { ButtonStyled } from './defaultButton-styles'
 
 export interface StyledType {
     outline?: boolean

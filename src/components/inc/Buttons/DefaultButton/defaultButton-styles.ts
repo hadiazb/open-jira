@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes } from 'react'
 
 import tw, { styled } from 'twin.macro'
-import { StyledShadowMixed } from '../../../../styles'
+import { StyledShadowMixed, StyledTransitionMixed } from '../../../../styles'
 
 export interface ButtonStyledProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     outline?: boolean
@@ -18,9 +18,10 @@ export interface ButtonStyledProps extends ButtonHTMLAttributes<HTMLButtonElemen
 
 export const ButtonStyled = styled.button.attrs({})<ButtonStyledProps>`
     ${StyledShadowMixed}
+    ${StyledTransitionMixed}
     ${tw`rounded-md min-w-[150px] text-base py-4 px-5 m-1.5 font-bold border border-solid`}
     ${tw`cursor-pointer`}
-    ${({ outline }) => (outline ? tw`opacity-100` : tw`opacity-50`)}
+    ${({ outline }) => (outline ? tw`opacity-100` : tw`opacity-90`)}
 
     color: ${({ outline, theme, styledType }) =>
         outline ? theme.colors[styledType || 'dark'] : theme.colors.white};
@@ -34,10 +35,10 @@ export const ButtonStyled = styled.button.attrs({})<ButtonStyledProps>`
         ${({ outline }) => outline && tw`text-white`};
 
         background: ${({ outline, theme, styledType }) =>
-            outline && theme.colors[styledType || 'secondary']};
+            outline && theme.colors[styledType || 'light']};
     }
 
     &:disabled {
-        ${tw`opacity-50`}
+        ${tw`opacity-60`}
     }
 `

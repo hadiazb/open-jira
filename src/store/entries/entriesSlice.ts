@@ -18,13 +18,19 @@ const initialState: EntriesState = {
         },
         {
             _id: uuidv4(),
-            description: 'Esta es una prueba rapida',
+            description: 'Esta es una prueba rapida para una tarea de tipo pendiente',
+            status: 'pending',
+            createAt: 13240000,
+        },
+        {
+            _id: uuidv4(),
+            description: 'Esta es una prueba rapida para una tarea de tipo in-progress',
             status: 'in-progress',
             createAt: 1000000,
         },
         {
             _id: uuidv4(),
-            description: 'Esta es una prueba rapida',
+            description: 'Esta es una prueba rapida para una tarea de tipo finished',
             status: 'finished',
             createAt: 2500000,
         },
