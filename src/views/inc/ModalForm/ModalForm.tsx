@@ -4,7 +4,7 @@ import { ReactElement, FC, useState } from 'react'
 import { DefaultButton, DefaultInput, DefaultModal, Form, Typography } from '../../../components'
 
 // styles
-import { ModalCtr, CtrButtons } from './modalForm-styles'
+import { ModalCtr, ModalCtrRow } from './modalForm-styles'
 
 export interface ModalFormProps {
     showModal: boolean
@@ -25,35 +25,59 @@ const ModalForm: FC<ModalFormProps> = ({ showModal, onClose }): ReactElement => 
                 </Typography>
 
                 <Form className="form__task">
-                    <DefaultInput
-                        name="name"
-                        label="Task Name"
-                        value={value}
-                        onChange={onChangeValue}
-                        error={{ message: '', type: 'form' }}
-                    />
-                    <DefaultInput
-                        name="description"
-                        label="Task Description"
-                        value={value}
-                        onChange={onChangeValue}
-                        error={{ message: '', type: 'form' }}
-                    />
-                    <CtrButtons>
+                    <ModalCtrRow>
+                        <DefaultInput
+                            name="name"
+                            label="Task Name"
+                            className="modal__input"
+                            value={value}
+                            onChange={onChangeValue}
+                            error={{ message: '', type: 'form' }}
+                        />
+                        <DefaultInput
+                            name="description"
+                            label="Task Description"
+                            className="modal__input"
+                            value={value}
+                            onChange={onChangeValue}
+                            error={{ message: '', type: 'form' }}
+                        />
+                    </ModalCtrRow>
+                    <ModalCtrRow>
+                        <DefaultInput
+                            name="name"
+                            label="Task Name"
+                            className="modal__input"
+                            value={value}
+                            onChange={onChangeValue}
+                            error={{ message: '', type: 'form' }}
+                        />
+                        <DefaultInput
+                            name="description"
+                            label="Task Description"
+                            className="modal__input"
+                            value={value}
+                            onChange={onChangeValue}
+                            error={{ message: '', type: 'form' }}
+                        />
+                    </ModalCtrRow>
+                    <ModalCtrRow>
                         <DefaultButton
                             text="Cancel"
                             type="button"
                             disabled={true}
                             styledType="secondary"
                             outline
+                            className="modal__button"
                         />
                         <DefaultButton
-                            text="Create new Task"
+                            text="Create Task"
                             type="submit"
                             disabled={true}
                             styledType="secondary"
+                            className="modal__button"
                         />
-                    </CtrButtons>
+                    </ModalCtrRow>
                 </Form>
             </ModalCtr>
         </DefaultModal>

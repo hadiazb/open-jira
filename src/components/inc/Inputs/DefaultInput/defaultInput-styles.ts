@@ -1,5 +1,5 @@
 import tw, { styled } from 'twin.macro'
-import { StyledTransitionMixed } from '../../../../styles'
+import { StyledTransitionMixed, StyledShadowInputMixed } from '../../../../styles'
 
 export interface StyledContainerProps {
     focused?: boolean
@@ -7,8 +7,9 @@ export interface StyledContainerProps {
 }
 
 export const StyledInputContainer = styled.div<StyledContainerProps>`
+    ${StyledShadowInputMixed}
     ${StyledTransitionMixed}
-    ${tw`relative my-4 py-2 pb-3 px-2 h-12 flex flex-col justify-end rounded bg-light`}
+    ${tw`relative my-4 py-2 pb-3 px-2 h-8 flex flex-col justify-end rounded-t bg-light`}
 
     border-bottom: ${({ focused, $isError, theme }) =>
         focused && `2px solid ${$isError ? theme.colors.danger : theme.colors.secondary}`};
@@ -36,5 +37,5 @@ export const StyledLabel = styled.label<StyledLabelProps>`
 
 export const StyledInput = styled.input`
     ${StyledTransitionMixed}
-    ${tw`absolute pl-4 bottom-4 h-7 left-0 bg-transparent w-[90%] outline-none border-none z-10 font-montserrat`}
+    ${tw`absolute pl-4 bottom-1 h-7 left-0 bg-transparent w-[90%] outline-none border-none z-10 font-montserrat`}
 `

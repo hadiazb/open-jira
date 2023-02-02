@@ -11,6 +11,7 @@ export interface DefaultInputProps {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
     type?: 'password' | 'email' | 'search' | 'text' | 'url'
     label?: string
+    className?: string
     error?: ErrorValidationProps
 }
 
@@ -26,11 +27,12 @@ const DefaultInput: React.FC<DefaultInputProps> = ({
     type,
     label,
     error,
+    className,
 }): ReactElement => {
     const { focus, setFocus, handleOnBlur } = useFocus()
 
     return (
-        <StyledInputContainer focused={focus} $isError={!!error?.message}>
+        <StyledInputContainer className={className} focused={focus} $isError={!!error?.message}>
             <StyledLabel htmlFor={name} focused={focus} $isError={!!error?.message}>
                 {label}
             </StyledLabel>

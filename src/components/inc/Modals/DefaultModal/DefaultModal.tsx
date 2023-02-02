@@ -1,4 +1,4 @@
-import { ReactElement, FC } from 'react'
+import { ReactElement, FC, useCallback, useEffect } from 'react'
 
 // styles
 import {
@@ -16,6 +16,28 @@ export interface DefaultModalProps {
 }
 
 const DefaultModal: FC<DefaultModalProps> = ({ children, showModal, onClose }): ReactElement => {
+    const body = document.querySelector('body')
+
+    const disableScroll = useCallback((): void => {
+        if (showModal && body) {
+            body.style.overflowY = 'hidden'
+        }
+    }, [body, showModal])
+
+    const enableScroll = useCallback((): void => {
+        if (showModal && body) {
+            body.style.overflowY = 'auto'
+        }
+    }, [body, showModal])
+
+    useEffect(() => {
+        disableScroll()
+
+        return () => {
+            enableScroll()
+        }
+    }, [disableScroll, enableScroll])
+
     return (
         <StyledModalCtr showModal={showModal}>
             <StyledModalOverLite />

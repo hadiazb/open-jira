@@ -12,10 +12,14 @@ export const ModalCtr = styled.div`
     }
 `
 
-export const CtrButtons = styled.div`
-    ${tw`flex justify-between items-center gap-1 mt-5`}
+export const ModalCtrRow = styled.div`
+    ${tw`flex flex-col md:flex-row justify-between items-center gap-1 mt-5`}
 
-    & button {
-        ${tw`w-1/2`}
+    & .modal__input {
+        ${tw`w-full md:w-1/2 mx-1.5`}
+    }
+
+    & .modal__button {
+        ${tw`w-full md:w-1/2`}
     }
 `

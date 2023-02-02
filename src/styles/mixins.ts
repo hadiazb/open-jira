@@ -4,6 +4,10 @@ export const StyledShadowMixed = css`
     ${({ theme }) => theme.colors.light && tw`shadow-[0px 3px 6px #00000029]`}
 `
 
+export const StyledShadowInputMixed = css`
+    ${({ theme }) => theme.colors.light && tw`shadow-[0px 1px 3px #00000029]`}
+`
+
 export const StyledTransitionMixed = css`
     ${tw`transition-[all] duration-[300ms] delay-[150ms]`}
 `
