@@ -8,7 +8,7 @@ export const ModalCtr = styled.div`
     }
 
     & .modal__title-task {
-        ${tw`text-base font-bold ml-0.5`}
+        ${tw`text-md font-bold ml-0.5`}
     }
 `
 

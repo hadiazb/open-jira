@@ -60,11 +60,20 @@ export const entriesSlice = createSlice({
         deleteEntry: (state, action: PayloadAction<Entry>) => {
             state.entries = state.entries.filter((entry) => entry._id !== action.payload._id)
         },
+        updateEntry: (state, action: PayloadAction<Entry>) => {
+            state.entries = state.entries.map((entry) => {
+                if (entry._id === action.payload._id) {
+                    entry.status = action.payload.status
+                    entry.description = action.payload.description
+                }
+                return entry
+            })
+        },
     },
 })
 
 // Actions Creators
-export const { addEntry, deleteEntry } = entriesSlice.actions
+export const { addEntry, deleteEntry, updateEntry } = entriesSlice.actions
 
 // Reducers
 export default entriesSlice.reducer

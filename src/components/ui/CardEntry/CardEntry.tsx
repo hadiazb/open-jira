@@ -1,4 +1,5 @@
-import { ReactElement, FC } from 'react'
+import { ReactElement, FC, DragEvent } from 'react'
+import { useDispatch } from 'react-redux'
 import { format } from 'date-fns'
 import eoLocale from 'date-fns/locale/es'
 
@@ -16,6 +17,9 @@ import {
     StyledCtrTaskRow,
 } from './cardEntry-styles'
 
+// action
+import { onStartDragging, onEndDragging } from '../../../store/ui'
+
 export interface CardEntryProps extends Entry {
     onDelete?: (entry: Entry) => void
 }
@@ -28,8 +32,30 @@ const CardEntry: FC<CardEntryProps> = ({
     _id,
     onDelete,
 }): ReactElement => {
+    const dispatch = useDispatch()
+
+    const handleDelete = (): void => {
+        if (onDelete) {
+            onDelete({
+                createAt,
+                description,
+                name,
+                _id,
+                status,
+            })
+        }
+    }
+
+    const onDragStart = (event: DragEvent<HTMLDivElement>): void => {
+        event.dataTransfer.setData('id', _id)
+        dispatch(onStartDragging())
+    }
+
+    const onDragEnd = (): void => {
+        dispatch(onEndDragging())
+    }
     return (
-        <StyledCtrTask>
+        <StyledCtrTask draggable onDragStart={onDragStart} onDragEnd={onDragEnd}>
             <StyledCtrTaskRow>
                 <StyledCtrTaskField>
                     <Typography variant="p" color="light">
@@ -68,20 +94,7 @@ const CardEntry: FC<CardEntryProps> = ({
             </StyledCtrTaskRow>
             <StyledCtrTaskRow>
                 <StyledCtrTaskField>
-                    <RemoveDarkIcon
-                        size={20}
-                        onClick={() => {
-                            if (onDelete) {
-                                onDelete({
-                                    createAt,
-                                    description,
-                                    name,
-                                    _id,
-                                    status,
-                                })
-                            }
-                        }}
-                    />
+                    <RemoveDarkIcon size={20} onClick={handleDelete} />
                 </StyledCtrTaskField>
             </StyledCtrTaskRow>
         </StyledCtrTask>
