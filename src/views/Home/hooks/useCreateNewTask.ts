@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { useEffect } from 'react'
 import { useForm, FieldValues, DeepPartial, Resolver } from 'react-hook-form'
 import * as yup from 'yup'
 

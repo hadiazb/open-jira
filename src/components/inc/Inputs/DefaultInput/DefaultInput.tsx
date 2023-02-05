@@ -1,4 +1,4 @@
-import { ReactElement, FocusEvent } from 'react'
+import { ReactElement } from 'react'
 
 import { useFocus } from './hooks/useFocus'
 
