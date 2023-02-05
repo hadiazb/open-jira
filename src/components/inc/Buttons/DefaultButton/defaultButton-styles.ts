@@ -25,8 +25,12 @@ export const ButtonStyled = styled.button.attrs({})<ButtonStyledProps>`
 
     color: ${({ outline, theme, styledType }) =>
         outline ? theme.colors[styledType || 'dark'] : theme.colors.white};
-    background: ${({ outline, theme, styledType }) =>
-        outline ? theme.colors.dark : theme.colors[styledType || 'secondary']};
+    background: ${({ outline, theme, styledType }) => {
+        if (outline) {
+            return 'transparent'
+        }
+        return theme.colors[styledType || 'secondary']
+    }};
     border-color: ${({ outline, theme, styledType }) =>
         outline ? theme.colors[styledType || 'dark'] : theme.colors[styledType || 'dark']};
 

@@ -1,5 +1,6 @@
 export interface Entry {
     _id: string
+    name: string
     description: string
     createAt: number
     status: EntryStatus

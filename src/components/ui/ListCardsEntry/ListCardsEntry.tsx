@@ -3,14 +3,18 @@ import { ReactElement, useMemo, FC } from 'react'
 // components
 import { CardEntry } from '..'
 
+// interfaces
+import { Entry } from '../../../interfaces'
+
 // selectors
 import { entriesSelector, useSelector } from '../../../selectors'
 
 export interface ListCardsEntryProps {
     status: 'pending' | 'in-progress' | 'finished'
+    onDelete?: (entry: Entry) => void
 }
 
-const ListCardsEntry: FC<ListCardsEntryProps> = ({ status }): ReactElement => {
+const ListCardsEntry: FC<ListCardsEntryProps> = ({ status, onDelete }): ReactElement => {
     const { entries } = useSelector(entriesSelector)
 
     const entriesByStatus = useMemo(
@@ -21,7 +25,15 @@ const ListCardsEntry: FC<ListCardsEntryProps> = ({ status }): ReactElement => {
     return (
         <>
             {entriesByStatus.map((entry) => (
-                <CardEntry key={entry._id} {...entry} />
+                <CardEntry
+                    key={entry._id}
+                    onDelete={() => {
+                        if (onDelete) {
+                            onDelete(entry)
+                        }
+                    }}
+                    {...entry}
+                />
             ))}
         </>
     )

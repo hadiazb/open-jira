@@ -1,4 +1,6 @@
 import { ReactElement, FC } from 'react'
+import { format } from 'date-fns'
+import eoLocale from 'date-fns/locale/es'
 
 // components
 import { Typography } from '../..'
@@ -7,22 +9,53 @@ import { Typography } from '../..'
 import { Entry } from '../../../interfaces'
 
 // styles
-import { StyledCtrTask, StyledCtrTaskRow } from './cardEntry-styles'
+import {
+    RemoveDarkIcon,
+    StyledCtrTask,
+    StyledCtrTaskField,
+    StyledCtrTaskRow,
+} from './cardEntry-styles'
 
 export interface CardEntryProps extends Entry {
-    other?: boolean
+    onDelete?: (entry: Entry) => void
 }
 
-const CardEntry: FC<CardEntryProps> = ({ createAt, description }): ReactElement => {
+const CardEntry: FC<CardEntryProps> = ({
+    createAt,
+    description,
+    name,
+    status,
+    _id,
+    onDelete,
+}): ReactElement => {
     return (
         <StyledCtrTask>
             <StyledCtrTaskRow>
+                <StyledCtrTaskField>
+                    <Typography variant="p" color="light">
+                        Name:
+                    </Typography>
+                    <Typography variant="span" color="light">
+                        {name}
+                    </Typography>
+                </StyledCtrTaskField>
+                <StyledCtrTaskField>
+                    <Typography variant="p" color="light">
+                        Id:
+                    </Typography>
+                    <Typography variant="span" color="light">
+                        {_id.split('-')[0]}
+                    </Typography>
+                </StyledCtrTaskField>
+            </StyledCtrTaskRow>
+            <StyledCtrTaskRow>
                 <Typography variant="p" color="light">
                     Fecha:
-                </Typography>
-
-                <Typography variant="span" color="light">
-                    {createAt}
+                    <Typography variant="span" color="light">
+                        {format(createAt, "do 'de' MMMM yyyy", {
+                            locale: eoLocale,
+                        })}
+                    </Typography>
                 </Typography>
             </StyledCtrTaskRow>
             <StyledCtrTaskRow>
@@ -32,6 +65,24 @@ const CardEntry: FC<CardEntryProps> = ({ createAt, description }): ReactElement 
                         {description}
                     </Typography>
                 </Typography>
+            </StyledCtrTaskRow>
+            <StyledCtrTaskRow>
+                <StyledCtrTaskField>
+                    <RemoveDarkIcon
+                        size={20}
+                        onClick={() => {
+                            if (onDelete) {
+                                onDelete({
+                                    createAt,
+                                    description,
+                                    name,
+                                    _id,
+                                    status,
+                                })
+                            }
+                        }}
+                    />
+                </StyledCtrTaskField>
             </StyledCtrTaskRow>
         </StyledCtrTask>
     )

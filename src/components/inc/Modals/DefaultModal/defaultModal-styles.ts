@@ -5,19 +5,21 @@ import { StyledShadowMixed, StyledTransitionMixed } from '../../../../styles'
 
 export interface ShowAndHidden {
     showModal: boolean
+    hideOverlay?: boolean
 }
 
 export const StyledModalCtr = styled.div<ShowAndHidden>`
     ${StyledTransitionMixed}
-    ${tw`fixed top-0 left-0 right-0 bottom-0 z-50 hidden justify-center items-center`}
+    ${tw`fixed top-0 left-0 right-0 bottom-0 z-[100] hidden justify-center items-center`}
 
     ${({ showModal }) => (showModal ? tw`flex` : tw`hidden`)}
 `
 
-export const StyledModalOverLite = styled.div`
+export const StyledModalOverLite = styled.div<Pick<ShowAndHidden, 'hideOverlay'>>`
     ${StyledShadowMixed}
     ${StyledTransitionMixed}
-    ${tw`bg-black fixed h-full w-full opacity-70 z-0`}
+    ${tw`bg-black fixed h-full w-full opacity-70 z-0 `}
+    ${({ hideOverlay }) => (hideOverlay ? tw`cursor-pointer` : tw``)}
 `
 
 export interface SizeBox {

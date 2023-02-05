@@ -68,7 +68,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
                         }}
                         styledType="dark"
                         type="button"
-                        outline
                         disabled
                     >
                         {mode === 'light' && <ModeMoonIcon size={15} />}

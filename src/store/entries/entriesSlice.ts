@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid'
 
 // models
@@ -12,27 +12,31 @@ const initialState: EntriesState = {
     entries: [
         {
             _id: uuidv4(),
+            name: 'Task 1',
             description: 'Esta es una prueba rapida para una tarea de tipo pendiente',
             status: 'pending',
-            createAt: 1324543,
+            createAt: new Date(2022, 6, 2).getTime(),
         },
         {
             _id: uuidv4(),
+            name: 'Task 2',
             description: 'Esta es una prueba rapida para una tarea de tipo pendiente',
             status: 'pending',
-            createAt: 13240000,
+            createAt: new Date(2022, 10, 23).getTime(),
         },
         {
             _id: uuidv4(),
+            name: 'Task 3',
             description: 'Esta es una prueba rapida para una tarea de tipo in-progress',
             status: 'in-progress',
-            createAt: 1000000,
+            createAt: new Date(2022, 12, 21).getTime(),
         },
         {
             _id: uuidv4(),
+            name: 'Task 4',
             description: 'Esta es una prueba rapida para una tarea de tipo finished',
             status: 'finished',
-            createAt: 2500000,
+            createAt: new Date(2023, 3, 2).getTime(),
         },
     ],
 }
@@ -41,14 +45,26 @@ export const entriesSlice = createSlice({
     name: 'entries',
     initialState,
     reducers: {
-        increment: (state) => {
-            state.entries = []
+        addEntry: (state, action: PayloadAction<Omit<Entry, '_id' | 'status' | 'createAt'>>) => {
+            state.entries = [
+                ...state.entries,
+                {
+                    _id: uuidv4(),
+                    name: action.payload.name,
+                    description: action.payload.description,
+                    status: 'pending',
+                    createAt: new Date().getTime(),
+                },
+            ]
+        },
+        deleteEntry: (state, action: PayloadAction<Entry>) => {
+            state.entries = state.entries.filter((entry) => entry._id !== action.payload._id)
         },
     },
 })
 
 // Actions Creators
-export const { increment } = entriesSlice.actions
+export const { addEntry, deleteEntry } = entriesSlice.actions
 
 // Reducers
 export default entriesSlice.reducer

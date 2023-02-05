@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, FocusEvent } from 'react'
 
 import { useFocus } from './hooks/useFocus'
 
@@ -8,21 +8,23 @@ import { Typography } from '../..'
 export interface DefaultInputProps {
     value: string
     name: string
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
     type?: 'password' | 'email' | 'search' | 'text' | 'url'
     label?: string
     className?: string
-    error?: ErrorValidationProps
+    onBlur: (event: string) => void
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+    error: ErrorValidationProps
 }
 
 export interface ErrorValidationProps {
-    message?: string
+    message: string
     type?: string
 }
 
 const DefaultInput: React.FC<DefaultInputProps> = ({
     value,
     onChange,
+    onBlur,
     name,
     type,
     label,
@@ -32,7 +34,11 @@ const DefaultInput: React.FC<DefaultInputProps> = ({
     const { focus, setFocus, handleOnBlur } = useFocus()
 
     return (
-        <StyledInputContainer className={className} focused={focus} $isError={!!error?.message}>
+        <StyledInputContainer
+            className={className}
+            focused={focus}
+            $isError={error.message.length > 0}
+        >
             <StyledLabel htmlFor={name} focused={focus} $isError={!!error?.message}>
                 {label}
             </StyledLabel>
@@ -45,6 +51,7 @@ const DefaultInput: React.FC<DefaultInputProps> = ({
                 onFocus={() => setFocus(true)}
                 onBlur={() => {
                     handleOnBlur(value)
+                    onBlur(value)
                 }}
             />
             {error && (
