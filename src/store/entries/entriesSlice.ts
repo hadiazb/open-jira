@@ -6,45 +6,32 @@ import { Entry } from '../../interfaces'
 
 export interface EntriesState {
     entries: Entry[]
+    error: string | null
+    isLoading: boolean
 }
 
 const initialState: EntriesState = {
-    entries: [
-        {
-            _id: uuidv4(),
-            name: 'Task 1',
-            description: 'Esta es una prueba rapida para una tarea de tipo pendiente',
-            status: 'pending',
-            createAt: new Date(2022, 6, 2).getTime(),
-        },
-        {
-            _id: uuidv4(),
-            name: 'Task 2',
-            description: 'Esta es una prueba rapida para una tarea de tipo pendiente',
-            status: 'pending',
-            createAt: new Date(2022, 10, 23).getTime(),
-        },
-        {
-            _id: uuidv4(),
-            name: 'Task 3',
-            description: 'Esta es una prueba rapida para una tarea de tipo in-progress',
-            status: 'in-progress',
-            createAt: new Date(2022, 12, 21).getTime(),
-        },
-        {
-            _id: uuidv4(),
-            name: 'Task 4',
-            description: 'Esta es una prueba rapida para una tarea de tipo finished',
-            status: 'finished',
-            createAt: new Date(2023, 3, 2).getTime(),
-        },
-    ],
+    entries: [],
+    error: null,
+    isLoading: false,
 }
 
 export const entriesSlice = createSlice({
     name: 'entries',
     initialState,
     reducers: {
+        onLoading: (state) => {
+            state.isLoading = true
+            state.error = null
+        },
+        onError: (state, action: PayloadAction<string>) => {
+            state.error = action.payload
+            state.isLoading = false
+        },
+        onLoadEntries: (state, action: PayloadAction<Entry[]>) => {
+            state.entries = action.payload
+            state.isLoading = false
+        },
         addEntry: (state, action: PayloadAction<Omit<Entry, '_id' | 'status' | 'createAt'>>) => {
             state.entries = [
                 ...state.entries,
@@ -73,7 +60,8 @@ export const entriesSlice = createSlice({
 })
 
 // Actions Creators
-export const { addEntry, deleteEntry, updateEntry } = entriesSlice.actions
+export const { addEntry, deleteEntry, updateEntry, onLoadEntries, onLoading, onError } =
+    entriesSlice.actions
 
 // Reducers
 export default entriesSlice.reducer

@@ -9,8 +9,24 @@ export const StyledCtrTask = styled.div`
     ${tw`w-11/12 my-1 md:my-3 p-3 rounded bg-secondary cursor-pointer`}
 `
 
-export const StyledCtrTaskRow = styled.div`
+export interface Position {
+    position?: 'center' | 'start' | 'end'
+}
+
+export const StyledCtrTaskRow = styled.div<Position>`
     ${tw`flex flex-row justify-between my-4`}
+
+    ${({ position }) => {
+        if (position === 'center') {
+            return tw`justify-center`
+        }
+        if (position === 'start') {
+            return tw`justify-start`
+        }
+        if (position === 'end') {
+            return tw`justify-end`
+        }
+    }}
 
     & p {
         ${tw`font-bold font-helvetica my-0`}
@@ -20,8 +36,26 @@ export const StyledCtrTaskRow = styled.div`
     }
 `
 
-export const StyledCtrTaskField = styled.div`
+export interface SizeBox extends Position {
+    width?: string
+}
+
+export const StyledCtrTaskField = styled.div<SizeBox>`
     ${tw`flex flex-row justify-start w-1/2`}
+
+    width: ${({ width }) => width};
+
+    ${({ position }) => {
+        if (position === 'center') {
+            return tw`justify-center`
+        }
+        if (position === 'start') {
+            return tw`justify-start`
+        }
+        if (position === 'end') {
+            return tw`justify-end`
+        }
+    }}
 `
 
 export const RemoveDarkIcon = styled(BsTrashFill)`

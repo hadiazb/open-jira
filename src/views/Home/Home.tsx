@@ -1,4 +1,5 @@
-import { ReactElement, useMemo, useState, DragEvent } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { ReactElement, useMemo, useState, DragEvent, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 // components
@@ -15,11 +16,14 @@ import { StyledHomeCtr, StyledHomeContent, StyledHomeCol } from './home-styles'
 import { Entry } from '../../interfaces'
 
 // actions
-import { updateEntry } from '../../store/entries'
+import { getEntriesAction, updateEntry } from '../../store/entries'
 import { onEndDragging } from '../../store/ui'
 
+// store
+import { AppDispatch } from '../../store/store'
+
 const HomeView = (): ReactElement => {
-    const dispatch = useDispatch()
+    const dispatch: AppDispatch = useDispatch()
     const [showDeleteTask, setShowDeleteTask] = useState(false)
     const [chooseEntry, setChooseEntry] = useState<Entry | null>(null)
 
@@ -28,6 +32,10 @@ const HomeView = (): ReactElement => {
     const { entries } = useSelector(entriesSelector)
 
     const colorMode = useMemo(() => (mode === 'dark' ? 'light' : 'dark'), [mode])
+
+    useEffect(() => {
+        dispatch(getEntriesAction())
+    }, [])
 
     const onDropEntry = (
         event: DragEvent<HTMLDivElement>,

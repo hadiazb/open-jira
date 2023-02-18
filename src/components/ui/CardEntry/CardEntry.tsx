@@ -54,6 +54,7 @@ const CardEntry: FC<CardEntryProps> = ({
     const onDragEnd = (): void => {
         dispatch(onEndDragging())
     }
+
     return (
         <StyledCtrTask draggable onDragStart={onDragStart} onDragEnd={onDragEnd}>
             <StyledCtrTaskRow>
@@ -70,7 +71,7 @@ const CardEntry: FC<CardEntryProps> = ({
                         Id:
                     </Typography>
                     <Typography variant="span" color="light">
-                        {_id.split('-')[0]}
+                        {_id.slice(0, 10)}...
                     </Typography>
                 </StyledCtrTaskField>
             </StyledCtrTaskRow>
@@ -92,8 +93,8 @@ const CardEntry: FC<CardEntryProps> = ({
                     </Typography>
                 </Typography>
             </StyledCtrTaskRow>
-            <StyledCtrTaskRow>
-                <StyledCtrTaskField>
+            <StyledCtrTaskRow position="end">
+                <StyledCtrTaskField width="100%" position="end">
                     <RemoveDarkIcon size={20} onClick={handleDelete} />
                 </StyledCtrTaskField>
             </StyledCtrTaskRow>
