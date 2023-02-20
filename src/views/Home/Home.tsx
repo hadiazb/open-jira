@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ReactElement, useMemo, useState, DragEvent, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 
 // components
 import { Typography, ListCardsEntry } from '../../components'
@@ -16,14 +15,15 @@ import { StyledHomeCtr, StyledHomeContent, StyledHomeCol } from './home-styles'
 import { Entry } from '../../interfaces'
 
 // actions
-import { getEntriesAction, updateEntry } from '../../store/entries'
+import { getEntriesAction, onSelectedEntry, updateEntryAction } from '../../store/entries'
 import { onEndDragging } from '../../store/ui'
+import { onShowModalUpsert } from '../../store/ui'
 
-// store
-import { AppDispatch } from '../../store/store'
+// hooks
+import { useDispatchApp } from '../../hooks'
 
 const HomeView = (): ReactElement => {
-    const dispatch: AppDispatch = useDispatch()
+    const dispatch = useDispatchApp()
     const [showDeleteTask, setShowDeleteTask] = useState(false)
     const [chooseEntry, setChooseEntry] = useState<Entry | null>(null)
 
@@ -45,12 +45,7 @@ const HomeView = (): ReactElement => {
         const entry = entries.find((entry) => entry._id === id)
 
         if (entry) {
-            dispatch(
-                updateEntry({
-                    ...entry,
-                    status,
-                })
-            )
+            dispatch(updateEntryAction({ ...entry, status }, entry._id))
             dispatch(onEndDragging())
         }
     }
@@ -81,6 +76,11 @@ const HomeView = (): ReactElement => {
                                 setChooseEntry(entry)
                                 setShowDeleteTask(true)
                             }}
+                            onEdit={(entry) => {
+                                setChooseEntry(entry)
+                                dispatch(onShowModalUpsert())
+                                dispatch(onSelectedEntry(entry))
+                            }}
                         />
                     </StyledHomeCol>
                     <StyledHomeCol
@@ -97,6 +97,11 @@ const HomeView = (): ReactElement => {
                                 setChooseEntry(entry)
                                 setShowDeleteTask(true)
                             }}
+                            onEdit={(entry) => {
+                                setChooseEntry(entry)
+                                dispatch(onShowModalUpsert())
+                                dispatch(onSelectedEntry(entry))
+                            }}
                         />
                     </StyledHomeCol>
                     <StyledHomeCol
@@ -112,6 +117,11 @@ const HomeView = (): ReactElement => {
                             onDelete={(entry) => {
                                 setChooseEntry(entry)
                                 setShowDeleteTask(true)
+                            }}
+                            onEdit={(entry) => {
+                                setChooseEntry(entry)
+                                dispatch(onShowModalUpsert())
+                                dispatch(onSelectedEntry(entry))
                             }}
                         />
                     </StyledHomeCol>

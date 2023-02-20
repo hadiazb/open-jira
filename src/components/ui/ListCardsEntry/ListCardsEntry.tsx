@@ -12,9 +12,10 @@ import { entriesSelector, useSelector } from '../../../selectors'
 export interface ListCardsEntryProps {
     status: 'pending' | 'in-progress' | 'finished'
     onDelete?: (entry: Entry) => void
+    onEdit?: (entry: Entry) => void
 }
 
-const ListCardsEntry: FC<ListCardsEntryProps> = ({ status, onDelete }): ReactElement => {
+const ListCardsEntry: FC<ListCardsEntryProps> = ({ status, onDelete, onEdit }): ReactElement => {
     const { entries } = useSelector(entriesSelector)
 
     const entriesByStatus = useMemo(
@@ -30,6 +31,11 @@ const ListCardsEntry: FC<ListCardsEntryProps> = ({ status, onDelete }): ReactEle
                     onDelete={() => {
                         if (onDelete) {
                             onDelete(entry)
+                        }
+                    }}
+                    onEdit={() => {
+                        if (onEdit) {
+                            onEdit(entry)
                         }
                     }}
                     {...entry}

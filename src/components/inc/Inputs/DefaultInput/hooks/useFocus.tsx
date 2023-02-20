@@ -1,12 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-export const useFocus = () => {
+export const useFocus = (valueInput: string) => {
     const [focus, setFocus] = useState(false)
 
-    const handleOnBlur = (valueInput: string): void => {
+    const handleOnBlur = (): void => {
         !valueInput.length ? setFocus(false) : setFocus(true)
     }
+
+    useEffect(() => {
+        handleOnBlur()
+    }, [])
 
     return {
         focus,

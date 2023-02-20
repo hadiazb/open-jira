@@ -1,17 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { v4 as uuidv4 } from 'uuid'
 
 // models
 import { Entry } from '../../interfaces'
 
 export interface EntriesState {
     entries: Entry[]
+    entryActive: Entry | null
+    isEditOrCreateEntry: boolean
     error: string | null
     isLoading: boolean
 }
 
 const initialState: EntriesState = {
     entries: [],
+    entryActive: null,
+    isEditOrCreateEntry: true,
     error: null,
     isLoading: false,
 }
@@ -20,6 +23,12 @@ export const entriesSlice = createSlice({
     name: 'entries',
     initialState,
     reducers: {
+        onSetEdit: (state) => {
+            state.isEditOrCreateEntry = false
+        },
+        onSetCreate: (state) => {
+            state.isEditOrCreateEntry = true
+        },
         onLoading: (state) => {
             state.isLoading = true
             state.error = null
@@ -28,40 +37,51 @@ export const entriesSlice = createSlice({
             state.error = action.payload
             state.isLoading = false
         },
+        onSelectedEntry: (state, action: PayloadAction<Entry>) => {
+            state.entryActive = action.payload
+        },
+        onCleanSelectedEntry: (state) => {
+            state.entryActive = null
+        },
         onLoadEntries: (state, action: PayloadAction<Entry[]>) => {
             state.entries = action.payload
             state.isLoading = false
         },
-        addEntry: (state, action: PayloadAction<Omit<Entry, '_id' | 'status' | 'createAt'>>) => {
-            state.entries = [
-                ...state.entries,
-                {
-                    _id: uuidv4(),
-                    name: action.payload.name,
-                    description: action.payload.description,
-                    status: 'pending',
-                    createAt: new Date().getTime(),
-                },
-            ]
+        onAddEntry: (state, action: PayloadAction<Entry>) => {
+            state.entries = [...state.entries, action.payload]
+            state.isLoading = false
         },
-        deleteEntry: (state, action: PayloadAction<Entry>) => {
+        onDeleteEntry: (state, action: PayloadAction<Entry>) => {
             state.entries = state.entries.filter((entry) => entry._id !== action.payload._id)
+            state.isLoading = false
         },
-        updateEntry: (state, action: PayloadAction<Entry>) => {
+        onUpdateEntry: (state, action: PayloadAction<Entry>) => {
             state.entries = state.entries.map((entry) => {
                 if (entry._id === action.payload._id) {
                     entry.status = action.payload.status
                     entry.description = action.payload.description
+                    entry.name = action.payload.name
                 }
                 return entry
             })
+            state.isLoading = false
         },
     },
 })
 
 // Actions Creators
-export const { addEntry, deleteEntry, updateEntry, onLoadEntries, onLoading, onError } =
-    entriesSlice.actions
+export const {
+    onSetEdit,
+    onSetCreate,
+    onAddEntry,
+    onDeleteEntry,
+    onUpdateEntry,
+    onLoadEntries,
+    onLoading,
+    onError,
+    onSelectedEntry,
+    onCleanSelectedEntry,
+} = entriesSlice.actions
 
 // Reducers
 export default entriesSlice.reducer

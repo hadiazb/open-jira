@@ -1,16 +1,27 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement } from 'react'
 
 // components
 import { ModalForm } from '..'
+
+// hooks
+import { useDispatchApp } from '../../../../hooks'
+
+// selectors
+import { uiSelector, useSelector } from '../../../../selectors'
+
+// actions
+import { onShowModalUpsert, onHireModalUpsert } from '../../../../store/ui'
 
 // styles
 import { StyledCtrHomeHeader, StyledCtrOptions, AddLightIcon } from './homeHeader-styles'
 
 const HomeHeader = (): ReactElement => {
-    const [showModal, setShowModal] = useState(false)
+    const dispatch = useDispatchApp()
+
+    const { showModalUpsert } = useSelector(uiSelector)
 
     const onClose = (): void => {
-        setShowModal(false)
+        dispatch(onHireModalUpsert())
     }
 
     return (
@@ -19,11 +30,11 @@ const HomeHeader = (): ReactElement => {
                 <AddLightIcon
                     size={30}
                     onClick={() => {
-                        setShowModal(true)
+                        dispatch(onShowModalUpsert())
                     }}
                 />
             </StyledCtrOptions>
-            <ModalForm showModal={showModal} onClose={onClose} />
+            <ModalForm showModal={showModalUpsert} onClose={onClose} />
         </StyledCtrHomeHeader>
     )
 }

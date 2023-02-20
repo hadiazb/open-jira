@@ -1,5 +1,4 @@
 import { ReactElement, FC, DragEvent } from 'react'
-import { useDispatch } from 'react-redux'
 import { format } from 'date-fns'
 import eoLocale from 'date-fns/locale/es'
 
@@ -12,6 +11,7 @@ import { Entry } from '../../../interfaces'
 // styles
 import {
     RemoveDarkIcon,
+    EditDarkIcon,
     StyledCtrTask,
     StyledCtrTaskField,
     StyledCtrTaskRow,
@@ -19,9 +19,14 @@ import {
 
 // action
 import { onStartDragging, onEndDragging } from '../../../store/ui'
+import { onSetEdit } from '../../../store/entries'
+
+// hooks
+import { useDispatchApp } from '../../../hooks'
 
 export interface CardEntryProps extends Entry {
     onDelete?: (entry: Entry) => void
+    onEdit?: (entry: Entry) => void
 }
 
 const CardEntry: FC<CardEntryProps> = ({
@@ -31,12 +36,26 @@ const CardEntry: FC<CardEntryProps> = ({
     status,
     _id,
     onDelete,
+    onEdit,
 }): ReactElement => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatchApp()
 
-    const handleDelete = (): void => {
+    const _onDelete = (): void => {
         if (onDelete) {
             onDelete({
+                createAt,
+                description,
+                name,
+                _id,
+                status,
+            })
+        }
+    }
+
+    const _onEdit = (): void => {
+        if (onEdit) {
+            dispatch(onSetEdit())
+            onEdit({
                 createAt,
                 description,
                 name,
@@ -95,7 +114,8 @@ const CardEntry: FC<CardEntryProps> = ({
             </StyledCtrTaskRow>
             <StyledCtrTaskRow position="end">
                 <StyledCtrTaskField width="100%" position="end">
-                    <RemoveDarkIcon size={20} onClick={handleDelete} />
+                    <EditDarkIcon size={20} onClick={_onEdit} />
+                    <RemoveDarkIcon size={20} onClick={_onDelete} />
                 </StyledCtrTaskField>
             </StyledCtrTaskRow>
         </StyledCtrTask>

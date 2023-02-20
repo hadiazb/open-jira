@@ -31,7 +31,7 @@ const DefaultInput: React.FC<DefaultInputProps> = ({
     error,
     className,
 }): ReactElement => {
-    const { focus, setFocus, handleOnBlur } = useFocus()
+    const { focus, setFocus, handleOnBlur } = useFocus(value)
 
     return (
         <StyledInputContainer
@@ -50,7 +50,7 @@ const DefaultInput: React.FC<DefaultInputProps> = ({
                 className={'pl-2 bg-transparent outline-none'}
                 onFocus={() => setFocus(true)}
                 onBlur={() => {
-                    handleOnBlur(value)
+                    handleOnBlur()
                     onBlur(value)
                 }}
             />

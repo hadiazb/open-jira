@@ -1,5 +1,4 @@
 import { ReactElement, FC } from 'react'
-import { useDispatch } from 'react-redux'
 
 // components
 import { DefaultButton, DefaultModal, Typography } from '../../../../components'
@@ -11,7 +10,13 @@ import { Entry } from '../../../../interfaces'
 import { ModalCtr, ModalCtrRow } from './modalDeleteTask-styles'
 
 // actions
-import { deleteEntry } from '../../../../store/entries'
+import { deleteEntryAction } from '../../../../store/entries'
+
+// hooks
+import { useDispatchApp } from '../../../../hooks'
+
+// selectors
+import { entriesSelector, useSelector } from '../../../../selectors'
 
 export interface ModalDeleteTaskProps {
     entry: Entry | null
@@ -20,7 +25,17 @@ export interface ModalDeleteTaskProps {
 }
 
 const ModalDeleteTask: FC<ModalDeleteTaskProps> = ({ showModal, onClose, entry }): ReactElement => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatchApp()
+
+    const { isLoading } = useSelector(entriesSelector)
+
+    const onDelete = async (): Promise<void> => {
+        if (entry) {
+            await dispatch(deleteEntryAction(entry._id))
+            onClose()
+        }
+    }
+
     return (
         <DefaultModal hideOverlay showModal={showModal} onClose={onClose}>
             <ModalCtr>
@@ -43,17 +58,12 @@ const ModalDeleteTask: FC<ModalDeleteTaskProps> = ({ showModal, onClose, entry }
                         onClick={onClose}
                     />
                     <DefaultButton
-                        text="Delete Task"
+                        text={`${isLoading ? 'Erasing...' : 'Delete Task'}`}
                         type="submit"
                         disabled={true}
                         styledType="secondary"
                         className="modal__button"
-                        onClick={() => {
-                            if (entry) {
-                                dispatch(deleteEntry(entry))
-                                onClose()
-                            }
-                        }}
+                        onClick={onDelete}
                     />
                 </ModalCtrRow>
             </ModalCtr>

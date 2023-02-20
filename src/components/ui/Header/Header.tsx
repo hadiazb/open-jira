@@ -1,8 +1,11 @@
 import { useRouter } from 'next/router'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 // base components
 import { DefaultCtr, Typography, DefaultButton } from '../..'
+
+// hooks
+import { useDispatchApp } from '../../../hooks'
 
 // selectors
 import { themeSelector, uiSelector } from '../../../selectors'
@@ -29,7 +32,7 @@ export interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({}) => {
     const router = useRouter()
-    const dispatch = useDispatch()
+    const dispatch = useDispatchApp()
 
     // selectors
     const { mode } = useSelector(themeSelector)

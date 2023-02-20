@@ -1,5 +1,5 @@
 import tw, { styled } from 'twin.macro'
-import { BsTrashFill } from 'react-icons/bs'
+import { BsTrashFill, BsFillPencilFill } from 'react-icons/bs'
 
 import { StyledShadowMixed, StyledTransitionMixed } from '../../../styles'
 
@@ -59,5 +59,9 @@ export const StyledCtrTaskField = styled.div<SizeBox>`
 `
 
 export const RemoveDarkIcon = styled(BsTrashFill)`
-    ${tw`text-light cursor-pointer`}
+    ${tw`text-light cursor-pointer ml-2`}
+`
+
+export const EditDarkIcon = styled(BsFillPencilFill)`
+    ${tw`text-light cursor-pointer ml-2`}
 `

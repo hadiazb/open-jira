@@ -1,5 +1,5 @@
-import { ReactElement, FC, useRef, ChangeEvent } from 'react'
-import { useDispatch } from 'react-redux'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { ReactElement, FC, useRef, ChangeEvent, useEffect } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useFormState } from 'react-hook-form'
 
@@ -8,12 +8,21 @@ import { DefaultButton, DefaultInput, DefaultModal, Form, Typography } from '../
 
 // hooks
 import { useCreateNewTaskForm, TaskType, taskSchema } from '../../hooks'
+import { useDispatchApp } from '../../../../hooks'
 
 // styles
 import { ModalCtr, ModalCtrRow } from './modalForm-styles'
 
 // actions
-import { addEntry } from '../../../../store/entries'
+import {
+    createEntryAction,
+    updateEntryAction,
+    onCleanSelectedEntry,
+    onSetCreate,
+} from '../../../../store/entries'
+
+// selector
+import { entriesSelector, useSelector } from '../../../../selectors'
 
 export interface ModalFormProps {
     showModal: boolean
@@ -21,7 +30,9 @@ export interface ModalFormProps {
 }
 
 const ModalForm: FC<ModalFormProps> = ({ showModal, onClose }): ReactElement => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatchApp()
+
+    const { isLoading, entryActive, isEditOrCreateEntry } = useSelector(entriesSelector)
 
     const defaultValuesRef = useRef<TaskType>({
         name: '',
@@ -36,24 +47,55 @@ const ModalForm: FC<ModalFormProps> = ({ showModal, onClose }): ReactElement => 
 
     const { errors, isValid } = useFormState({ control })
 
-    const onSubmit = ({ name, description }: TaskType): void => {
-        dispatch(
-            addEntry({
-                name,
-                description,
-            })
-        )
+    useEffect(() => {
+        return () => {
+            dispatch(onCleanSelectedEntry())
+            dispatch(onSetCreate())
+        }
+    }, [])
+
+    useEffect(() => {
+        if (entryActive) {
+            setValue('name', entryActive.name, { shouldValidate: true })
+            setValue('description', entryActive.description, { shouldValidate: true })
+        }
+    }, [entryActive])
+
+    const onSubmit = async ({ name, description }: TaskType): Promise<void> => {
+        if (isEditOrCreateEntry) {
+            await dispatch(createEntryAction({ name, description }))
+        } else {
+            if (entryActive) {
+                await dispatch(
+                    updateEntryAction({ ...entryActive, name, description }, entryActive._id)
+                )
+            }
+        }
         reset()
+        _onClose()
+    }
+
+    const _onClose = (): void => {
+        dispatch(onCleanSelectedEntry())
         onClose()
+        reset()
+    }
+
+    const putTextButton = (): string => {
+        if (isEditOrCreateEntry) {
+            return `${isLoading ? 'Creating...' : 'Create Task'}`
+        } else {
+            return `${isLoading ? 'Editing...' : 'Edit Task'}`
+        }
     }
 
     return (
         <>
             {showModal && (
-                <DefaultModal showModal={showModal} onClose={onClose} hideOverlay>
+                <DefaultModal showModal={showModal} onClose={_onClose} hideOverlay>
                     <ModalCtr>
                         <Typography variant="h3" color="secondary" className="modal__title">
-                            Create new Task
+                            {isEditOrCreateEntry ? 'Create new Task' : 'Edit Task'}
                         </Typography>
 
                         <Form onSubmit={handleSubmit(onSubmit)} className="form__task">
@@ -103,10 +145,10 @@ const ModalForm: FC<ModalFormProps> = ({ showModal, onClose }): ReactElement => 
                                     styledType="secondary"
                                     outline
                                     className="modal__button"
-                                    onClick={onClose}
+                                    onClick={_onClose}
                                 />
                                 <DefaultButton
-                                    text="Create Task"
+                                    text={putTextButton()}
                                     type="submit"
                                     disabled={isValid}
                                     styledType="secondary"
